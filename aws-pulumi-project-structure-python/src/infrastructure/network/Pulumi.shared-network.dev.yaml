@@ -1,0 +1,4 @@
+encryptionsalt: v1:4ypEHrrDIHE=:v1:xIXQklPoZHW8ec3r:9zmUTvwpXl+Y78cvWihTJQ/PBQxQWA==
+config:
+    k8s_vpc_config:cidr_block: 10.12.0.0/16
+    k8s_vpc_config:environment: dev

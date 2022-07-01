@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "eura2021-pulumi-tools"
+version = "0.1.0"
+description = ""
+authors = ["tapanihook <tapani.hook@netum.fi>"]
+packages = [
+    { include = "infrastructure", from = "src" },
+    { include = "components", from = "src" },
+    { include = "lib", from = "src"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pulumi-awsx = "^1.0.0-beta.9"
+pulumi-eks = "^0.41.0"
+pulumi-aws = "5.4.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+flake8 = "^4.0.1"
+mypy = "^0.961"
+protobuf = "3.20.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

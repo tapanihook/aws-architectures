@@ -1,0 +1,8 @@
+name: tools-k8s-cluster
+runtime: python
+description: Eura2021 tools kubernetes clusters
+template:
+  config:
+    aws:region:
+      description: The default AWS region for deployments
+      default: eu-west-1
