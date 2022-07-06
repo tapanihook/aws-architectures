@@ -3,7 +3,8 @@ import pulumi
 from pulumi_eks import Cluster
 
 base_name = "k8s-cluster"
-network_stack = pulumi.StackReference("shared-network", stack_name="shared-network.dev")
+network_config = Config("network_config")
+network_stack = pulumi.StackReference("shared-network", stack_name=network_config.require("k8s_network_stack_name"))
 k8s_cluster_vpc_id = network_stack.outputs["vpc_id"]
 my_private_subnet_ids = network_stack.outputs["private_subnet_ids"]
 pulumi.log.debug(f"Subnet ids: {my_private_subnet_ids}")

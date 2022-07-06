@@ -1,6 +1,6 @@
-name: tools-network
+name: networking
 runtime: python
-description: Eura2021 tools stack
+description: Pulumi networking project
 template:
   config:
     aws:region:
