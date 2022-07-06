@@ -5,7 +5,7 @@ from pydantic import PositiveInt
 from typing import Optional
 
 
-from lib.types import AwsBase
+from lib.base_types import AwsBase
 
 
 MIN_SUBNETS = PositiveInt(2)
