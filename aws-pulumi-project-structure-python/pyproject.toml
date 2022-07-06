@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "eura2021-pulumi-tools"
+name = "pulumi-aws-examples"
 version = "0.1.0"
 description = ""
 authors = ["tapanihook <tapani.hook@netum.fi>"]

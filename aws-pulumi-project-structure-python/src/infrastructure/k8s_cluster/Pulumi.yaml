@@ -1,4 +1,4 @@
-name: tools-k8s-cluster
+name: cluster
 runtime: python
 description: Eura2021 tools kubernetes clusters
 template:
