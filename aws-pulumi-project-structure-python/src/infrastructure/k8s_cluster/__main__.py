@@ -12,7 +12,8 @@ pulumi.log.debug(f"Subnet ids: {my_private_subnet_ids}")
 pulumi.log.debug(f"VPC id: {k8s_cluster_vpc_id}")
 base_name = f"{cluster_config.require('environment')}-k8s-cluster"
 
-tools_k8s_cluster = Cluster(
+# TODO: Add tags
+my_k8s_cluster = Cluster(
     base_name,
     create_oidc_provider=True,
     desired_capacity=2,
@@ -25,9 +26,10 @@ tools_k8s_cluster = Cluster(
     node_root_volume_encrypted=True,
     node_root_volume_size=100,
     node_ami_id=cluster_config.require("node_ami_id"),
+    node_associate_public_ip_address=False,
     private_subnet_ids=my_private_subnet_ids,
-    #role_mappings=
-    # tags
     version=cluster_config.require("k8s_version"),
     vpc_id=k8s_cluster_vpc_id
 )
+pulumi.export("k8s_cluster_info", my_k8s_cluster.eks_cluster)
+pulumi.export("k8s_cluster_kubeconfig", my_k8s_cluster.kubeconfig)
