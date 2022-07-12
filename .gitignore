@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 aws-pulumi-project-structure-python/src/infrastructure/network/__pycache__/*
+.vscode
