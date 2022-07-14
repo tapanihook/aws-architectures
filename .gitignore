@@ -161,3 +161,4 @@ cython_debug/
 
 aws-pulumi-project-structure-python/src/infrastructure/network/__pycache__/*
 .vscode
+poetry.lock

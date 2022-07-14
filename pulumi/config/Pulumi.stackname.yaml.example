@@ -27,3 +27,11 @@ config:
   # k8s_vpc_config:cidr_block: 10.12.0.0/16
   # k8s_vpc_config:environment:
   # k8s_vpc_config:maintainer:
+
+  ############################################################################
+  # Secret store demo settings
+  ############################################################################
+
+  # secret-store-demo:environment:
+  # secret-store-demo:k8s_cluster_stack_name:
+  # secret-store-demo:environment: create this with pulumi config set --secet

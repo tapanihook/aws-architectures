@@ -1,0 +1,8 @@
+name: secret-store-demo
+runtime: python
+description: Pulumi secret store demo
+template:
+  config:
+    aws:region:
+      description: The default AWS region for deployments
+      default: eu-west-1
