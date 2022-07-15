@@ -35,3 +35,6 @@ config:
   # secret-store-demo:environment:
   # secret-store-demo:k8s_cluster_stack_name:
   # secret-store-demo:environment: create this with pulumi config set --secet
+  # secret-store-demo:chart_url: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+  # secret-store-demo:chart_version: 1.2.2
+  # secret-store-demo:aws_provider_manifest_url: https://raw.githubusercontent.com/aws/secrets-store-csi-driver-provider-aws/main/deployment/aws-provider-installer.yaml

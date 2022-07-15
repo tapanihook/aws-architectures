@@ -1,3 +1,4 @@
+from distutils.command.config import config
 import json
 
 import pulumi
@@ -62,8 +63,9 @@ csi_secrets_store_driver = pulumi_kubernetes.helm.v3.Release(
             "enabled": "true"
         }
     },
+    version=secret_store_config.require("chart_version"),
     repository_opts=pulumi_kubernetes.helm.v3.RepositoryOptsArgs(
-        repo="https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts"
+        repo=secret_store_config.require("chart_url")
     ),
     opts=pulumi.ResourceOptions(
         provider=k8s_provider)
@@ -71,7 +73,7 @@ csi_secrets_store_driver = pulumi_kubernetes.helm.v3.Release(
 
 csi_secrets_store_provider = pulumi_kubernetes.yaml.ConfigFile(
     f"{environment}-csi-secrets-store-provider-aws",
-    file="https://raw.githubusercontent.com/aws/secrets-store-csi-driver-provider-aws/main/deployment/aws-provider-installer.yaml",
+    file=secret_store_config.require("aws_provider_manifest_url"),
     opts=pulumi.ResourceOptions(
         depends_on=[csi_secrets_store_driver],
         provider=k8s_provider
