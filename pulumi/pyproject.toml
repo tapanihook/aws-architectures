@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pulumi-aws-examples"
+name = "aws-pulumi-architectures"
 version = "0.1.0"
 description = ""
 authors = ["tapanihook <tapani.hook@netum.fi>"]

@@ -1,4 +1,7 @@
-from distutils.command.config import config
+'''
+Demonstrate how to install Kubernetes Secrets Store CSI Driver 
+and integrate it to the AWS Secrets Manager
+'''
 import json
 
 import pulumi
