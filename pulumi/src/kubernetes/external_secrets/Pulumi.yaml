@@ -1,0 +1,8 @@
+name: external-secrets
+runtime: python
+description: Pulumi external secrets demo
+template:
+  config:
+    aws:region:
+      description: The default AWS region for deployments
+      default: eu-west-1

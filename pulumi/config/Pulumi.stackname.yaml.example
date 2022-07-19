@@ -38,3 +38,14 @@ config:
   # secret-store-demo:chart_url: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
   # secret-store-demo:chart_version: 1.2.2
   # secret-store-demo:aws_provider_manifest_url: https://raw.githubusercontent.com/aws/secrets-store-csi-driver-provider-aws/main/deployment/aws-provider-installer.yaml
+
+
+  ############################################################################
+  # External Secrets settings
+  ############################################################################
+
+  external-secrets:chart_url: https://charts.external-secrets.io
+  external-secrets:chart_version: 0.5.8
+  external-secrets:environment: test
+  external-secrets:k8s_cluster_stack_name: k8s-cluster.test
+  external-secrets:test-secret-1: <set-using-pulumi>
