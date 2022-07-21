@@ -1,3 +1,4 @@
+"""This module defines a Pulumi component resource for building an AWS VPC."""
 import pulumi
 from pulumi import ComponentResource, ResourceOptions
 from pulumi_awsx import ec2
@@ -10,10 +11,10 @@ from lib.base_types import AwsBase
 
 MIN_SUBNETS = PositiveInt(2)
 MAX_NET_PREFIX = (
-    21  # A CIDR block of prefix length 21 allows for up to 8 /24 subnet blocks
+    21  # Allows for up to 8 /24 subnet blocks
 )
 SUBNET_PREFIX_V4 = (
-    24  # A CIDR block of prefix length 24 allows for up to 255 individual IP addresses
+    24  # Allows for up to 255 individual IP addresses
 )
 
 
@@ -29,21 +30,26 @@ class VirtualNetworkConfig(AwsBase):
 class VirtualNetwork(ComponentResource):
     """Pulumi component for building an AWS VPC."""
 
-    def __init__(self, network_config: VirtualNetworkConfig, opts: Optional[ResourceOptions] = None):
+    def __init__(self, network_config: VirtualNetworkConfig,
+                 opts: Optional[ResourceOptions] = None):
         """Build an AWS VPC with subnets, internet gateway, and routing table.
-        :param vpc_config: Configuration object for customizing the created VPC and
-            associated resources.
-        :type vpc_config: VirtualNetworkConfig
-        :param opts: Optional resource options to be merged into the defaults.  Useful
-            for handling things like AWS provider overrides.
+        :param netowork_config: Configuration object for customizing the
+            created VPC and associated resources.
+        :type network_config: VirtualNetworkConfig
+        :param opts: Optional resource options to be merged into the defaults.
+            Useful for handling things like AWS provider overrides.
         :type opts: Optional[ResourceOptions]
         """
-        super().__init__("components:virtual_network:VirtualNetwork", f"{network_config.environment}-{network_config.network_name}", None, opts)
+        super().__init__(
+            "components:virtual_network:VirtualNetwork",
+            f"{network_config.environment}-{network_config.network_name}",
+            None,
+            opts)
+
         resource_options = ResourceOptions.merge(  # type: ignore
             ResourceOptions(parent=self),
             opts,
         )
-
 
         self.network_name = network_config.network_name
 
@@ -64,11 +70,13 @@ class VirtualNetwork(ComponentResource):
         )
 
         self.my_vpc = ec2.Vpc(
-            f"{network_config.environment}-{network_config.network_name}-vpc",
+            f"{network_config.network_name}-{network_config.environment}-vpc",
             cidr_block=network_config.cidr_block,
             enable_dns_hostnames=True,
             number_of_availability_zones=network_config.num_subnets,
-            subnet_specs=[self.db_subnet_args, self.nodegroup_public_subnet_args, self.public_subnet_args],
+            subnet_specs=[
+                self.db_subnet_args, self.nodegroup_public_subnet_args,
+                self.public_subnet_args],
             tags={
                 **network_config.tags,
                 "environment": network_config.environment,

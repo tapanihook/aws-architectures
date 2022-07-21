@@ -7,6 +7,7 @@ Provision AWS EKS components. This includes
 
 from pulumi import Config
 import pulumi
+import pulumi_aws
 from pulumi_eks import Cluster
 
 
@@ -30,6 +31,29 @@ if not min_node_capacity:
 max_node_capacity = cluster_config.get("max_node_capacity")
 if not max_node_capacity:
     max_node_capacity = 3
+max_node_capacity = cluster_config.get("max_node_capacity")
+k8s_version = cluster_config.get("k8s_version")
+if not k8s_version:
+    k8s_version = "1.22"
+# NOTE: Cluster class should default to latest node ami
+#       but instead of ami if we get error
+node_ami_id = cluster_config.get("node_ami_id")
+if not node_ami_id:
+    ami_result = pulumi_aws.ec2.get_ami(
+        filters=[
+            pulumi_aws.ec2.GetAmiFilterArgs(
+                name="name", # amazon-eks-node-1.22
+                values=[f"amazon-eks-node-{k8s_version}-*"],
+            ),
+            pulumi_aws.ec2.GetAmiFilterArgs(
+                name="architecture",
+                values=["x86_64"],
+            )
+        ],
+        most_recent=True,
+        owners=["amazon"])
+    node_ami_id = ami_result.id
+
 
 # TODO: Add tags
 my_k8s_cluster = Cluster(
@@ -45,10 +69,10 @@ my_k8s_cluster = Cluster(
     min_size=min_node_capacity,
     node_root_volume_encrypted=True,
     node_root_volume_size=100,
-    node_ami_id=cluster_config.require("node_ami_id"),
+    node_ami_id=node_ami_id,
     node_associate_public_ip_address=False,
     private_subnet_ids=my_private_subnet_ids,
-    version=cluster_config.require("k8s_version"),
+    version=k8s_version,
     vpc_id=k8s_cluster_vpc_id
 )
 pulumi.export("k8s_cluster_info", my_k8s_cluster.eks_cluster)
