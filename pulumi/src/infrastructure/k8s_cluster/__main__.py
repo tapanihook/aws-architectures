@@ -21,11 +21,19 @@ pulumi.log.debug(f"Subnet ids: {my_private_subnet_ids}")
 pulumi.log.debug(f"VPC id: {k8s_cluster_vpc_id}")
 
 cluster_config = Config("cluster_config")
-base_name = f"{cluster_config.require('environment')}-k8s-cluster"
+
 desired_node_capacity = cluster_config.get("desired_node_capacity")
 if not desired_node_capacity:
     desired_node_capacity = 2
 min_node_capacity = cluster_config.get("min_node_capacity")
+environment = network_config.get("environment")
+if not environment:
+    environment = "test"
+maintainer = network_config.get("maintainer")
+if not maintainer:
+    my_arn = pulumi_aws.get_caller_identity().arn
+    maintainer = my_arn.split("/")[-1]
+network_name = f"{maintainer}-network"
 if not min_node_capacity:
     min_node_capacity = 1
 max_node_capacity = cluster_config.get("max_node_capacity")
@@ -54,7 +62,7 @@ if not node_ami_id:
         owners=["amazon"])
     node_ami_id = ami_result.id
 
-
+base_name = f"{maintainer}-k8s-cluster-{environment}"
 # TODO: Add tags
 my_k8s_cluster = Cluster(
     base_name,
